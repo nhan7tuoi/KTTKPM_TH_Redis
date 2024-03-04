@@ -21,9 +21,10 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
+
 	@GetMapping("/list")
 	public List<Employee> getAll(){
-		return employeeRepository.getAllEmployees();
+		return employeeRepository.findAll();
 	}
 	@CachePut(value = "employees", key = "#employee")
 	@PostMapping("/create")

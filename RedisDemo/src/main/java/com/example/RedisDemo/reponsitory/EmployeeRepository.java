@@ -21,15 +21,24 @@ public class EmployeeRepository {
 	}
 
 
-	@Cacheable(value = "employees", unless = "#result == null or #result.size() == 0")
-    public List<Employee> getAllEmployees() {
-        List<Employee> employeesFromCache = redisTemplate.opsForValue().get("employees");
-        System.out.println(employeesFromCache);
-        return employeesFromCache;
-    }
-	
 	public void save(Employee employee) {
 		hashOperations.put("EMPLOYEE", employee.getId(), employee);
+	}
+
+	public List<Employee> findAll() {
+		return hashOperations.values("EMPLOYEE");
+	}
+
+	public Employee findById(int id) {
+		return (Employee) hashOperations.get("EMPLOYEE", id);
+	}
+
+	public void update(Employee employee) {
+		save(employee);
+	}
+
+	public void delete(int id) {
+		hashOperations.delete("EMPLOYEE", id);
 	}
 
 }
